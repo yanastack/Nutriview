@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NutriView</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --maroon: #8C1F2F;
+    --maroon-dark: #6B1522;
+    --marigold: #E8A33D;
+    --cream: #FFF9EF;
+    --cream-card: #FFFDF8;
+    --ink: #241A16;
+    --ink-soft: #6B5C54;
+    --sage: #4C7A5E;
+    --rust: #B23A2E;
+    --line: #EAE0D0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, .display { font-family: 'Space Grotesk', sans-serif; }
+
+  .handwritten { font-family: 'Caveat', cursive; }
+
+  .wrap {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    background: var(--maroon);
+    background-image: radial-gradient(circle at 85% -10%, rgba(232,163,61,0.25), transparent 55%);
+    color: var(--cream);
+    padding: 48px 0 40px;
+    border-bottom: 6px solid var(--marigold);
+  }
+
+  .hero-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .brand-mark {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-body {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+
+  .hero-text { flex: 1; min-width: 260px; }
+
+  .hero-text h1 {
+    font-size: 34px;
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+
+  .hero-text p {
+    color: #F3DCC2;
+    font-size: 16px;
+    max-width: 420px;
+  }
+
+  .tagline-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 13px;
+    margin-bottom: 14px;
+    letter-spacing: 0.02em;
+  }
+
+  .badger { width: 128px; height: 128px; flex-shrink: 0; }
+
+  /* ---------- Search ---------- */
+  .search-bar {
+    margin-top: 28px;
+    background: var(--cream-card);
+    border-radius: 14px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  }
+
+  .search-bar svg { flex-shrink: 0; color: var(--ink-soft); }
+
+  .search-bar input {
+    border: none;
+    outline: none;
+    background: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    width: 100%;
+    color: var(--ink);
+  }
+
+  .search-bar input::placeholder { color: var(--ink-soft); }
+
+  .mode-row {
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .mode-label {
+    font-family: 'Caveat', cursive;
+    font-size: 19px;
+    color: var(--cream);
+  }
+  .mode-select {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 7px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.12);
+    color: var(--cream);
+    cursor: pointer;
+    outline: none;
+  }
+  .mode-select option { color: var(--ink); }
+
+  /* ---------- Sections ---------- */
+  section { padding: 44px 0; }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .section-head h2 { font-size: 22px; }
+
+  .eyebrow {
+    font-family: 'Caveat', cursive;
+    font-size: 20px;
+    color: var(--maroon);
+    transform: rotate(-2deg);
+    display: inline-block;
+  }
+
+  /* ---------- Top rated cards ---------- */
+  .rated-row {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+
+  .dish-card {
+    background: var(--cream-card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 18px;
+    min-width: 240px;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .dish-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(140,31,47,0.12);
+  }
+
+  .rank {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--marigold);
+    background: var(--maroon);
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  .dish-name { font-size: 17px; font-weight: 600; margin-bottom: 2px; }
+  .dish-halls { font-size: 12.5px; color: var(--ink-soft); margin-bottom: 10px; }
+
+  .stars { color: var(--marigold); font-size: 15px; letter-spacing: 1px; margin-bottom: 8px; }
+
+  .quote {
+    font-family: 'Caveat', cursive;
+    font-size: 18px;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+  .quote span { color: var(--ink-soft); font-family: 'Inter', sans-serif; font-size: 12px; }
+
+  /* ---------- Dish detail panel ---------- */
+  .detail-panel {
+    display: none;
+    background: var(--cream-card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 22px;
+    margin-top: 16px;
+  }
+  .detail-panel.open { display: block; }
+
+  .detail-panel h3 { font-size: 20px; margin-bottom: 4px; }
+  .detail-panel .dish-halls { margin-bottom: 14px; }
+
+  .action-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .action-btn {
+    font-family: 'Inter', sans-serif;
+    font-size: 13.5px;
+    font-weight: 500;
+    padding: 9px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: var(--cream);
+    color: var(--ink);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .action-btn:hover { border-color: var(--maroon); }
+  .action-btn.active {
+    background: var(--maroon);
+    color: var(--cream);
+    border-color: var(--maroon);
+  }
+  .action-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .trending-status {
+    font-family: 'Caveat', cursive;
+    font-size: 18px;
+    color: var(--rust);
+    margin-bottom: 14px;
+  }
+  .rating-num { font-family: 'Inter', sans-serif; font-size: 12px; color: var(--ink-soft); margin-left: 4px; }
+  .rate-stars { display: flex; gap: 4px; margin-bottom: 10px; }
+  .rate-stars button {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: var(--line);
+    line-height: 1;
+    padding: 0;
+  }
+  .rate-stars button.filled { color: var(--marigold); }
+
+  .review-input {
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    resize: vertical;
+    min-height: 56px;
+    margin-bottom: 8px;
+  }
+
+  .submit-btn {
+    background: var(--maroon);
+    color: var(--cream);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .submit-btn:hover { background: var(--maroon-dark); }
+
+  .review-list { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
+  .review-item {
+    font-family: 'Caveat', cursive;
+    font-size: 17px;
+    background: var(--cream);
+    border-left: 3px solid var(--marigold);
+    padding: 6px 12px;
+    border-radius: 4px;
+  }
+
+  .alert-note {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    margin-top: -6px;
+    margin-bottom: 14px;
+  }
+
+  /* ---------- Dining halls grid ---------- */
+  .halls-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+
+  .hall-card {
+    background: var(--cream-card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 18px;
+    position: relative;
+  }
+
+  .hall-card { cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+  .hall-card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(140,31,47,0.12); }
+  .hall-card.closed { opacity: 0.55; }
+  .hall-card.selected { border-color: var(--maroon); box-shadow: 0 0 0 2px var(--maroon); }
+  .clear-filter {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: var(--maroon);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  .hall-name { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
+
+  .busy-tag {
+    font-family: 'Caveat', cursive;
+    font-size: 17px;
+    font-weight: 600;
+    display: inline-block;
+    padding: 2px 12px;
+    border-radius: 100px;
+    transform: rotate(-3deg);
+    margin-bottom: 12px;
+  }
+  .busy-tag.busy { background: #F3DCD8; color: var(--rust); }
+  .busy-tag.empty { background: #DEEBE2; color: var(--sage); }
+  .busy-tag.kinda { background: #FBEBD4; color: #A16A1F; }
+  .busy-tag.closed { background: #EAE0D0; color: var(--ink-soft); }
+
+  .hall-menu { font-size: 13.5px; color: var(--ink); display: flex; flex-direction: column; gap: 4px; }
+  .hall-menu div { display: flex; justify-content: space-between; gap: 8px; }
+  .hall-menu .meal { color: var(--ink-soft); }
+
+  .trend-line {
+    justify-content: flex-start !important;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .hall-cue {
+    justify-content: flex-start !important;
+    font-family: 'Caveat', cursive;
+    font-size: 17px;
+    color: var(--maroon);
+  }
+
+  .full-menu-list { display: flex; flex-direction: column; gap: 2px; margin-top: 8px; }
+  .full-menu-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 9px 4px;
+    border-bottom: 1px solid var(--line);
+    font-size: 14.5px;
+  }
+  .full-menu-item .meal { color: var(--ink-soft); font-size: 13px; white-space: nowrap; }
+  .trend-badge {
+    font-family: 'Caveat', cursive;
+    font-size: 15px;
+    color: var(--rust);
+    margin-left: 6px;
+  }
+
+  footer {
+    text-align: center;
+    padding: 28px 0 40px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dish-card { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="hero-top">
+      <div class="brand">
+        <span class="brand-mark">NutriView</span>
+      </div>
+    </div>
+
+    <div class="hero-body">
+      <div class="hero-text">
+        <span class="tagline-tag">Know before you go</span>
+        <h1>Never waste a swipe on something mid.</h1>
+        <p>Real student reviews, ratings, and live-ish recs for UW-Madison dining halls — so you know what's actually worth the walk.</p>
+      </div>
+      <svg class="badger" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="64" cy="64" r="62" fill="#6B1522"/>
+        <path d="M40 50 C40 30, 88 30, 88 50 L92 78 C92 100, 36 100, 36 78 Z" fill="#F3DCC2"/>
+        <path d="M46 34 L38 14 L54 32 Z" fill="#F3DCC2"/>
+        <path d="M82 34 L90 14 L74 32 Z" fill="#F3DCC2"/>
+        <ellipse cx="52" cy="58" rx="5" ry="6" fill="#241A16"/>
+        <ellipse cx="76" cy="58" rx="5" ry="6" fill="#241A16"/>
+        <path d="M60 68 Q64 74 68 68" stroke="#241A16" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <path d="M46 76 Q64 92 82 76" stroke="#241A16" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <g transform="translate(90,78) rotate(-15)">
+          <rect x="0" y="0" width="10" height="24" rx="5" fill="#F3DCC2"/>
+          <circle cx="5" cy="0" r="6" fill="#F3DCC2"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="search-bar">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Search for dishes, dining halls...">
+    </div>
+
+    <div class="mode-row">
+      <span class="mode-label">Show me:</span>
+      <select id="modeSelect" class="mode-select" onchange="setMode(this.value)">
+        <option value="trending">Trending items</option>
+        <option value="all">All menu</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section id="rated">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">today's ratings & reviews</span>
+        <h2>Top Rated Right Now</h2>
+      </div>
+      <div id="filterStatus"></div>
+    </div>
+
+    <div class="rated-row" id="ratedRow"></div>
+    <div class="detail-panel" id="detailPanel"></div>
+  </section>
+
+  <section id="halls">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow" id="hallsEyebrow">select a dining hall</span>
+        <h2 id="hallsHeading">Dining Halls</h2>
+      </div>
+    </div>
+
+    <div class="halls-grid" id="hallsGrid"></div>
+    <div class="detail-panel" id="menuPanel"></div>
+  </section>
+
+  <footer>NutriView &mdash; a student project prototype. Not an official UW&ndash;Madison product.</footer>
+</div>
+
+<script>
+  // Helper: build a timestamp N hours ago from now (for demo data)
+  function hoursAgo(n) {
+    return Date.now() - n * 60 * 60 * 1000;
+  }
+
+  const dishes = [
+    {
+      id: 'tso',
+      name: "General Tso's Chicken",
+      halls: "Gordon's · Liz's",
+      hallList: ["Gordon's", "Liz's"],
+      // each rating is a star value + when it was submitted
+      ratings: [
+        { stars: 5, timestamp: hoursAgo(2) },
+        { stars: 4, timestamp: hoursAgo(5) },
+        { stars: 5, timestamp: hoursAgo(8) },
+        { stars: 4, timestamp: hoursAgo(20) },
+        { stars: 5, timestamp: hoursAgo(30) }, // older than 24h — won't count toward trending
+        { stars: 4, timestamp: hoursAgo(40) }
+      ],
+      reviews: [{ text: "Worth the long lines", author: "Ryan P." }]
+    },
+    {
+      id: 'tinga',
+      name: "Chicken Tinga",
+      halls: "Gordon's · Liz's · Flakes",
+      hallList: ["Gordon's", "Liz's", "Flakes"],
+      ratings: [
+        { stars: 4, timestamp: hoursAgo(1) },
+        { stars: 4, timestamp: hoursAgo(3) },
+        { stars: 5, timestamp: hoursAgo(6) },
+        { stars: 3, timestamp: hoursAgo(10) },
+        { stars: 4, timestamp: hoursAgo(22) }
+      ],
+      reviews: [{ text: "Always a banger 🔥", author: "Priya" }]
+    },
+    {
+      id: 'banhmi',
+      name: "Banh Mi Sandwich",
+      halls: "Rheta's",
+      hallList: ["Rheta's"],
+      ratings: [
+        { stars: 4, timestamp: hoursAgo(4) },
+        { stars: 3, timestamp: hoursAgo(12) },
+        // only 2 recent ratings — below the trending threshold, so this won't trend
+      ],
+      reviews: [{ text: "Can't believe they included ts", author: "Blake" }]
+    }
+  ];
+
+  // ---- Trending logic ----
+  // A dish trends if it has received enough ratings within a recent time window.
+  const TRENDING_WINDOW_HOURS = 24; // only look at the last 24 hours
+  const TRENDING_MIN_RATINGS = 4;   // need at least this many recent ratings
+
+  function recentRatings(dish) {
+    const now = Date.now();
+    return dish.ratings.filter(r => {
+      const ageHours = (now - r.timestamp) / (1000 * 60 * 60);
+      return ageHours <= TRENDING_WINDOW_HOURS;
+    });
+  }
+
+  function isTrending(dish) {
+    return recentRatings(dish).length >= TRENDING_MIN_RATINGS;
+  }
+
+  // Average star rating across ALL ratings, rounded to 1 decimal
+  function averageRating(dish) {
+    if (dish.ratings.length === 0) return 0;
+    const sum = dish.ratings.reduce((total, r) => total + r.stars, 0);
+    return Math.round((sum / dish.ratings.length) * 10) / 10;
+  }
+
+  const halls = [
+    { name: "Gordon's", status: "busy", label: "Busy RN",
+      fullMenu: [["General Tso's Chicken","Lunch"],["Chicken Tinga","Dinner"],["Stir Fry Bar","Lunch"],["Belgian Waffles","Breakfast"],["Garden Salad Bar","All day"],["Tomato Basil Soup","Lunch"],["Vegan Chili","Dinner"]] },
+    { name: "Flakes", status: "empty", label: "Empty",
+      fullMenu: [["Chicken Tinga","Dinner"],["Margherita Pizza","Lunch"],["Breakfast Burrito","Breakfast"],["Caesar Wrap","Lunch"],["Fruit & Yogurt Bar","Breakfast"]] },
+    { name: "Rheta's", status: "kinda", label: "Busy Kinda",
+      fullMenu: [["Banh Mi Sandwich","Lunch"],["Grilled Cheese","Lunch"],["Pho Bowl","Dinner"],["Veggie Fried Rice","Dinner"],["Oatmeal Bar","Breakfast"]] },
+    { name: "Liz's", status: "busy", label: "Busy RN",
+      fullMenu: [["General Tso's Chicken","Lunch"],["Loaded Nachos","Dinner"],["Acai Bowl","Breakfast"],["Turkey Club","Lunch"],["Mac & Cheese","Dinner"]] },
+    { name: "Carson's", status: "empty", label: "Empty",
+      fullMenu: [["Buffalo Cauliflower Wrap","Lunch"],["Miso Ramen Bowl","Dinner"],["Belgian Waffles","Breakfast"],["Pesto Pasta","Dinner"]] },
+    { name: "Lowell Market", status: "closed", label: "Closed Forever · RIP",
+      fullMenu: [],
+      epitaph: "This hall closed with the class of '25. Nothing left to serve but memories." }
+  ];
+
+  // A hall's trending dishes = dishes served there that are currently trending.
+  function trendingDishesForHall(hallName) {
+    return dishes
+      .filter(d => d.hallList.includes(hallName) && isTrending(d))
+      .map(d => d.name);
+  }
+
+  const state = {}; // per-dish local state: rating, alert on/off, custom reviews
+  let selectedHall = null;
+  let viewMode = 'trending'; // 'trending' | 'all'
+
+  function starString(r) {
+    const full = Math.round(r);
+    return '★'.repeat(full) + '☆'.repeat(5 - full);
+  }
+
+  function setMode(mode) {
+    viewMode = mode;
+    selectedHall = null;
+    document.getElementById('menuPanel').classList.remove('open');
+
+    const eyebrow = document.getElementById('hallsEyebrow');
+    const heading = document.getElementById('hallsHeading');
+    const ratedSection = document.getElementById('rated');
+
+    if (mode === 'all') {
+      eyebrow.textContent = 'browse the full menu';
+      heading.textContent = 'Trending Dining Halls';
+      ratedSection.style.display = 'none'; // hide trending-dish strip in all-menu mode
+    } else {
+      eyebrow.textContent = 'select a dining hall';
+      heading.textContent = 'Dining Halls';
+      ratedSection.style.display = '';
+    }
+    renderHalls();
+    renderRated();
+  }
+
+  function renderRated() {
+    const row = document.getElementById('ratedRow');
+    const filterStatus = document.getElementById('filterStatus');
+    const trendingDishes = dishes.filter(d => isTrending(d));
+    const list = selectedHall ? trendingDishes.filter(d => d.hallList.includes(selectedHall)) : trendingDishes;
+
+    filterStatus.innerHTML = selectedHall
+      ? `<span class="handwritten" style="font-size:17px;color:var(--maroon);">showing ${selectedHall}</span> <button class="clear-filter" onclick="clearHallFilter()">clear</button>`
+      : '';
+
+    row.innerHTML = list.length ? list.map((d, i) => `
+      <div class="dish-card" onclick="openDetail('${d.id}')">
+        <div class="rank">${i + 1}</div>
+        <div class="dish-name">${d.name}</div>
+        <div class="dish-halls">${d.halls}</div>
+        <div class="stars">${starString(averageRating(d))} <span class="rating-num">${averageRating(d)}</span></div>
+        <div class="quote">"${d.reviews[0].text}" <span>&mdash; ${d.reviews[0].author}</span></div>
+      </div>
+    `).join('') : `<div style="color:var(--ink-soft); font-size:14px; padding:12px 0;">No trending dishes for this hall yet.</div>`;
+  }
+
+  function selectHall(idx) {
+    const hall = halls[idx];
+
+    if (hall.status === 'closed') {
+      const target = viewMode === 'all' ? 'menuPanel' : 'ratedRow';
+      if (viewMode === 'all') {
+        const panel = document.getElementById('menuPanel');
+        panel.classList.add('open');
+        panel.innerHTML = `<h3>${hall.name}</h3><p style="font-family:'Caveat',cursive; font-size:19px; color:var(--ink-soft); margin-top:6px;">🪦 ${hall.epitaph}</p>`;
+        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } else {
+        document.getElementById('filterStatus').innerHTML = `<span class="handwritten" style="font-size:17px;color:var(--ink-soft);">${hall.epitaph}</span>`;
+        document.getElementById('ratedRow').innerHTML = `<div style="color:var(--ink-soft); font-size:14px; padding:12px 0;">🪦 Rest in peace, Lowell Market.</div>`;
+        document.getElementById('rated').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      return;
+    }
+
+    if (viewMode === 'all') {
+      // Show this hall's full menu in the panel
+      selectedHall = hall.name;
+      renderHalls();
+      openFullMenu(hall);
+    } else {
+      // Trending mode: filter the Top Rated strip (option A)
+      selectedHall = (selectedHall === hall.name) ? null : hall.name;
+      renderHalls();
+      renderRated();
+      document.getElementById('rated').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  function openFullMenu(hall) {
+    const panel = document.getElementById('menuPanel');
+    panel.classList.add('open');
+    const trendingHere = trendingDishesForHall(hall.name);
+    panel.innerHTML = `
+      <h3>${hall.name} &mdash; Full Menu</h3>
+      <div class="dish-halls">${hall.fullMenu.length} items today</div>
+      <div class="full-menu-list">
+        ${hall.fullMenu.map(([dish, meal]) => `
+          <div class="full-menu-item">
+            <span>${dish}${trendingHere.includes(dish) ? ' <span class="trend-badge">🔥 trending</span>' : ''}</span>
+            <span class="meal">${meal}</span>
+          </div>`).join('')}
+      </div>
+    `;
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function clearHallFilter() {
+    selectedHall = null;
+    renderHalls();
+    renderRated();
+  }
+
+  function openDetail(id) {
+    const dish = dishes.find(d => d.id === id);
+    if (!state[id]) state[id] = { rating: 0, alerted: false, myReviews: [] };
+    const s = state[id];
+    const panel = document.getElementById('detailPanel');
+    panel.classList.add('open');
+
+    const recentCount = recentRatings(dish).length;
+    const trendingNote = isTrending(dish)
+      ? `🔥 Trending &mdash; ${recentCount} ratings in the last ${TRENDING_WINDOW_HOURS}h`
+      : `${recentCount}/${TRENDING_MIN_RATINGS} recent ratings needed to trend`;
+
+    panel.innerHTML = `
+      <h3>${dish.name}</h3>
+      <div class="dish-halls">${dish.halls} &middot; avg ${averageRating(dish)}★</div>
+      <div class="trending-status">${trendingNote}</div>
+
+      <div class="rate-stars" id="rateStars"></div>
+      <button class="submit-btn" id="submitRating">Submit rating</button>
+
+      <div class="action-row" style="margin-top:16px;">
+        <button class="action-btn ${s.alerted ? 'active' : ''}" id="alertBtn">🔔 ${s.alerted ? 'Alert set' : 'Alert me when back'}</button>
+        <button class="action-btn disabled">▶ Live line &mdash; coming soon</button>
+      </div>
+      ${s.alerted ? '<div class="alert-note">Added to your alert list. You\'ll be notified when it\'s next scheduled in a hall.</div>' : ''}
+
+      <textarea class="review-input" id="reviewInput" placeholder="Leave a review..."></textarea>
+      <button class="submit-btn" id="submitReview">Post review</button>
+
+      <div class="review-list" id="reviewList">
+        ${[...dish.reviews, ...s.myReviews].map(r => `<div class="review-item">"${r.text}" &mdash; ${r.author}</div>`).join('')}
+      </div>
+    `;
+
+    const starsEl = document.getElementById('rateStars');
+    starsEl.innerHTML = [1,2,3,4,5].map(n => `<button data-n="${n}">★</button>`).join('');
+    updateStars();
+    starsEl.querySelectorAll('button').forEach(btn => {
+      btn.onclick = () => {
+        s.rating = parseInt(btn.dataset.n);
+        updateStars();
+      };
+    });
+
+    function updateStars() {
+      starsEl.querySelectorAll('button').forEach(btn => {
+        btn.classList.toggle('filled', parseInt(btn.dataset.n) <= s.rating);
+      });
+    }
+
+    // Submitting a rating pushes a real timestamped entry into the dish's
+    // ratings array — this is what can tip it over the trending threshold.
+    document.getElementById('submitRating').onclick = () => {
+      if (s.rating === 0) return; // must pick a star value first
+      dish.ratings.push({ stars: s.rating, timestamp: Date.now() });
+      s.rating = 0;
+      renderHalls();  // trending tiles may change
+      renderRated();  // top-rated strip may change
+      openDetail(id); // refresh this panel (updated count + avg)
+    };
+
+    document.getElementById('alertBtn').onclick = () => {
+      s.alerted = !s.alerted;
+      openDetail(id); // re-render
+    };
+
+    document.getElementById('submitReview').onclick = () => {
+      const input = document.getElementById('reviewInput');
+      const text = input.value.trim();
+      if (!text) return;
+      s.myReviews.push({ text, author: "You" });
+      openDetail(id);
+    };
+
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function renderHalls() {
+    const grid = document.getElementById('hallsGrid');
+    grid.innerHTML = halls.map((h, idx) => {
+      const closed = h.status === 'closed';
+      const selected = selectedHall === h.name;
+
+      let body;
+      if (closed) {
+        body = `<div class="meal">Permanently closed</div>`;
+      } else if (viewMode === 'all') {
+        // All-menu mode: tile is a gateway to the full menu
+        body = `<div class="hall-cue">${h.fullMenu.length} items &middot; tap to view full menu</div>`;
+      } else {
+        // Trending mode: show only trending dish names (computed from recent ratings)
+        const trendingHere = trendingDishesForHall(h.name);
+        body = trendingHere.length
+          ? trendingHere.map(d => `<div class="trend-line">🔥 ${d}</div>`).join('')
+          : `<div class="meal">Nothing trending right now</div>`;
+      }
+
+      return `
+      <div class="hall-card ${closed ? 'closed' : ''} ${selected ? 'selected' : ''}" onclick="selectHall(${idx})">
+        <div class="hall-name">${h.name}</div>
+        <span class="busy-tag ${h.status}">${h.label}</span>
+        <div class="hall-menu">${body}</div>
+      </div>
+    `;
+    }).join('');
+  }
+
+  renderRated();
+  renderHalls();
+</script>
+
+</body>
+</html>
