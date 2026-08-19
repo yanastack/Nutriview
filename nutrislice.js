@@ -68,9 +68,6 @@ async function fetchNutrisliceHallMenu(schoolSlug, date = new Date()) {
 }
 
 async function loadRealMenus() {
-  // `halls` and renderHalls() are defined by the prototype's main script.
-  // This file is loaded after it, so we can update the existing hall objects
-  // without rebuilding the rest of the app.
   const activeHalls = halls.filter(hall => NUTRISLICE_HALLS[hall.name]);
 
   await Promise.all(activeHalls.map(async hall => {
@@ -92,11 +89,14 @@ async function loadRealMenus() {
 
   renderHalls();
 
-  // If a full-menu panel is already open, refresh it with the fetched data.
   if (selectedHall && viewMode === 'all') {
     const selected = halls.find(hall => hall.name === selectedHall);
     if (selected) openFullMenu(selected);
   }
 }
 
-loadRealMenus();
+// index.html defines these globals. The guard also lets this helper file be
+// opened/tested on its own without throwing an error.
+if (typeof halls !== 'undefined' && typeof renderHalls === 'function') {
+  loadRealMenus();
+}
